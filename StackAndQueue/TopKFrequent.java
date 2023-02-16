@@ -1,4 +1,4 @@
-package CodeCatalog.StackAndQueue;
+package StackAndQueue;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -1,4 +1,4 @@
-package CodeCatalog.DynamicProgramming;
+package DynamicProgramming;
 
 import java.util.HashMap;
 import java.util.List;

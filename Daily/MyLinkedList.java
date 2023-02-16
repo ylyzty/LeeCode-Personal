@@ -1,4 +1,4 @@
-package CodeCatalog.Daily;
+package Daily;
 
 class Node {
     private int val;

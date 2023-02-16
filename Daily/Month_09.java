@@ -1,4 +1,4 @@
-package CodeCatalog.Daily;
+package Daily;
 
 import java.util.ArrayList;
 import java.util.Arrays;

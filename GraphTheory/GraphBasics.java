@@ -1,4 +1,4 @@
-package CodeCatalog.GraphTheory;
+package GraphTheory;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

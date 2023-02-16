@@ -1,4 +1,4 @@
-package CodeCatalog.Weekly;
+package Weekly;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-import CodeCatalog.Daily.KMP;
+import Daily.KMP;
 
 /**
  * 91 双周赛

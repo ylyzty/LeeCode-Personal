@@ -1,4 +1,4 @@
-package CodeCatalog.Daily;
+package Daily;
 
 public class KMP {
     public int searchSubstringIndex(String s, String pattern) {

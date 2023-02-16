@@ -1,4 +1,4 @@
-package CodeCatalog.GreedyQues;
+package GreedyQues;
 
 import java.util.Arrays;
 

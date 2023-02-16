@@ -1,4 +1,4 @@
-package CodeCatalog.DynamicProgramming;
+package DynamicProgramming;
 
 public class SegmentTree {
     /**

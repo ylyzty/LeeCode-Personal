@@ -1,4 +1,4 @@
-package CodeCatalog.Daily;
+package Daily;
 
 public class Summarize {
     // 递归快速幂

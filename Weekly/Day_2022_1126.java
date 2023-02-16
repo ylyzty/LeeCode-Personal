@@ -1,4 +1,4 @@
-package CodeCatalog.Weekly;
+package Weekly;
 
 public class Day_2022_1126 {
     

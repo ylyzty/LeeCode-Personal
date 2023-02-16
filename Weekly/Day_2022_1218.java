@@ -1,4 +1,4 @@
-package CodeCatalog.Weekly;
+package Weekly;
 
 import java.util.ArrayList;
 import java.util.HashMap;

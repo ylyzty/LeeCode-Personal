@@ -1,4 +1,4 @@
-package CodeCatalog.BinaryTree;
+package BinaryTree;
 
 import java.util.ArrayList;
 import java.util.Collections;

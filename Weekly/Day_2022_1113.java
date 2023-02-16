@@ -1,4 +1,4 @@
-package CodeCatalog.Weekly;
+package Weekly;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package CodeCatalog.HashMapDemo;
+package HashMapDemo;
 
 import java.util.Collection;
 import java.util.HashMap;

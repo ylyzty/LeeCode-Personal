@@ -1,4 +1,4 @@
-package CodeCatalog.Daily;
+package Daily;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

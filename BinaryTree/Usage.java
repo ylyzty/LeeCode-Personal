@@ -1,4 +1,4 @@
-package CodeCatalog.BinaryTree;
+package BinaryTree;
 
 import java.util.ArrayList;
 import java.util.Deque;
@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-import CodeCatalog.BinaryTree.Traversal.TreeNode;
+import BinaryTree.Traversal.TreeNode;
 
 /**
  * 二叉树应用

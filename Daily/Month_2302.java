@@ -1,7 +1,9 @@
 package CodeCatalog.Daily;
 
 import java.security.KeyStore.Entry;
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -219,6 +221,145 @@ public class Month_2302 {
         }
 
         return sb.toString();
+    }
+
+    public int balancedString(String s) {
+        int n = s.length();
+        int[] counts = new int[4];
+        Map<Character, Integer> map = new HashMap<>();
+
+        map.put('Q', 0);
+        map.put('W', 1);
+        map.put('E', 2);
+        map.put('R', 3);
+        
+        for (int i = 0; i < s.length(); i++) {
+            counts[map.get(s.charAt(i))] += 1;
+        }
+
+        // 如果所有字符出现次数均满足要求
+        if (check(counts, n / 4)) {
+            return 0;
+        }
+
+        int left = 0, right = 0;
+        int ans = n;
+        
+        // 枚举待替换子串的左端点
+        // counts 维护除滑动窗口外 QWER 的个数
+        for (; left < n; left++) {
+            while (right < n && !check(counts, n / 4)) {
+                counts[map.get(s.charAt(right))] -= 1;
+                right += 1;
+            }
+
+            // 表示从该左端点开始，均无法满足要求
+            if (!check(counts, n / 4)) {
+                break;
+            }
+
+            ans = Math.min(ans, right - left);
+            counts[map.get(s.charAt(left))] += 1;
+        }
+
+        return ans;
+    }
+
+    public boolean check(int[] counts, int target) {
+        if (counts[0] > target || counts[1] > target || counts[2] > target || counts[3] > target) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * 和大于0的最长子数组
+     * 前缀和 + 单调队列
+     * @param hours
+     * @return
+     */
+    public int longestWPI(int[] hours) {
+        int n = hours.length;
+        int[] prefix = new int[n + 1];
+
+        for (int i = 0; i < n; i++) {
+            hours[i] = hours[i] > 8 ? 1 : -1;
+        }
+
+        Deque<Integer> deque = new ArrayDeque<>();
+        deque.push(0);
+
+        for (int i = 1; i <= n; i++) {
+            prefix[i] = prefix[i - 1] + hours[i - 1];
+            if (prefix[deque.peek()] > prefix[i]) {
+                deque.push(i);
+            }
+        }
+
+        int ans = 0;
+        for (int i = n; i >= 1; i--) {
+            while (!deque.isEmpty() && prefix[deque.peek()] < prefix[i]) {
+                ans = Math.max(ans,  i - deque.pop());
+            }
+        }
+
+        return ans;
+    }
+
+
+    public boolean isGoodArray(int[] nums) {
+        int divisor = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+            divisor = gcd(divisor, nums[i]);
+            if (divisor == 1) {
+                return true;
+            }
+        }
+
+        return divisor == 1;
+    }
+
+    /**
+     * 最大公约数
+     * 辗转相除法，迭代
+     * @param a
+     * @param b
+     * @return
+     */
+    public int gcd(int a, int b) {
+        while (b > 0) {
+            int tmp = b;
+            b = a % b;
+            a = tmp;
+        }
+
+        return a;
+    }
+
+
+    /**
+     * 
+     * @param nums
+     * @return
+     */
+    public int[] numberOfPairs(int[] nums) {
+        HashMap<Integer, Boolean> map = new HashMap<>();
+        int pairs = 0;
+        for (int num : nums) {
+            map.put(num, !map.getOrDefault(num, false));
+            if (!map.get(num)) {
+                pairs += 1;
+            }
+        }
+
+        int[] ans = new int[2];
+        ans[0] = pairs;
+        ans[1] = nums.length - 2 * pairs;
+        
+        return ans;
     }
 
 }
