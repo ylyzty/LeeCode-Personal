@@ -1,13 +1,15 @@
-package CodeCatalog.Daily;
+package Daily;
 
-import java.security.KeyStore.Entry;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 
-public class Month_2302 {
+public class Month_02 {
 
     private static final int MOD = (int) (1e9 + 7);
     private int[] rollMax;
@@ -362,6 +364,117 @@ public class Month_2302 {
         return ans;
     }
 
+
+    /**
+     * 问题转换 --> 求矩阵中每个点各个方向的最大连续1
+     * @param grid
+     * @return
+     */
+    public int largest1BorderedSquare(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+
+        int[][] left = new int[n + 1][m + 1];
+        int[][] up = new int[n + 1][m + 1];
+
+        int ans = 0;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (grid[i - 1][j - 1] == 1) {
+                    left[i][j] = left[i][j - 1] + 1;
+                    up[i][j] = up[i - 1][j] + 1;
+
+                    int L = Math.min(left[i][j], up[i][j]);
+                    while (L > 0) {
+                        if (left[i - L + 1][j] >= L && up[i][j - L + 1] >= L) {
+                            ans = Math.max(ans, L);
+                            break;
+                        }
+
+                        L -= 1;
+                    }
+                }
+            }
+        }
+
+        return ans * ans;
+    }
+
+
+    /**
+     * 二分查找的应用
+     * @param customfunction
+     * @param z
+     * @return
+     */
+    public List<List<Integer>> findSolution(CustomFunction customfunction, int z) {
+        List<List<Integer>> ans = new ArrayList<>();
+        
+        int last = 1000;
+        for (int i = 1; i <= 1000; i++) {
+            int left = 1;
+            int right = last;
+
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                if (customfunction.f(i, mid) > z) {
+                    right = mid - 1;
+                }
+                else if (customfunction.f(i, mid) < z) {
+                    left = mid + 1;
+                }
+                else {
+                    List<Integer> temp = new ArrayList<>();
+                    temp.add(i);
+                    temp.add(mid);
+                    ans.add(temp);
+                    right = mid;
+                    break;
+                }
+            }
+            
+            if (right < 1) {
+                break;
+            }
+
+            last = right;
+        }
+
+        return ans;
+    }
+
+
+    public double maxAverageRatio(int[][] classes, int extraStudents) {
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((o1, o2) -> {
+            long val1 = ((long) o2[1]) * (o2[1] + 1) * (o1[1] - o1[0]);
+            long val2 = ((long) o1[1]) * (o1[1] + 1) * (o2[1] - o2[0]);
+
+            return (int) (val2 - val1);
+        });
+
+        for (int[] c : classes) {
+            priorityQueue.offer(c);
+        }
+
+        for (int i = 0; i < extraStudents; i++) {
+            int[] cur = priorityQueue.poll();
+            priorityQueue.offer(new int[]{cur[0] + 1, cur[1] + 1});
+        }
+
+        double ans = 0;
+        while (!priorityQueue.isEmpty()) {
+            int[] cur = priorityQueue.poll();
+            ans += ((double) cur[0]) / cur[1];
+        }
+
+        return ans / classes.length;
+    }
+
+
+    public static void main(String[] args) {
+        Month_02 test = new Month_02();
+        test.findSolution(new CustomFunction(), 5);
+    }
 }
 
 /**
@@ -488,4 +601,10 @@ class AuthenticationManager {
         return map.size();
     }
 
+}
+
+class CustomFunction {
+    public int f(int x, int y) {
+        return x + y;
+    }
 }

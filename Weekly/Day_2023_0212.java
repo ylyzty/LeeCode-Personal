@@ -72,6 +72,8 @@ public class Day_2023_0212 {
         Map<Integer, int[]> map = new HashMap<>();
 
         int n = arr.length;
+
+        // 预处理 得到字符串中可能存在的所有十进制数
         for (int left = 0; left < n; left++) {
             int tmp = 0;
             for (int right = left; right < Math.min(left + 30, n); right++) {
