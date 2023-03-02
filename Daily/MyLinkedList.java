@@ -1,36 +1,5 @@
 package Daily;
 
-class Node {
-    private int val;
-    private Node next;
-
-    public Node(int val) {
-        this.val = val;
-    }
-
-    public Node(int val, Node next) {
-        this.val = val;
-        this.next = next;
-    }
-
-    public int getVal() {
-        return val;
-    }
-
-    public Node getNext() {
-        return next;
-    }
-
-    public void setVal(int val) {
-        this.val = val;
-    }
-
-    public void setNext(Node next) {
-        this.next = next;
-    }
-}
-
-
 public class MyLinkedList {
 
     private Node head;
@@ -122,5 +91,35 @@ public class MyLinkedList {
         node.setNext(node.getNext().getNext());
         head = virtualHead.getNext();
         size -= 1;
+    }
+}
+
+class Node {
+    private int val;
+    private Node next;
+
+    public Node(int val) {
+        this.val = val;
+    }
+
+    public Node(int val, Node next) {
+        this.val = val;
+        this.next = next;
+    }
+
+    public int getVal() {
+        return val;
+    }
+
+    public Node getNext() {
+        return next;
+    }
+
+    public void setVal(int val) {
+        this.val = val;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
     }
 }
