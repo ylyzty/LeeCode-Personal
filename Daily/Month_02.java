@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
+import java.util.concurrent.locks.ReadWriteLock;
 
 public class Month_02 {
 
@@ -468,6 +471,233 @@ public class Month_02 {
         }
 
         return ans / classes.length;
+    }
+
+
+    public int minTaps(int n, int[] ranges) {
+        int[] rightMost = new int[n + 1];
+
+        for (int i = 0; i <= n; i++) {
+            rightMost[i] = i;
+        }
+
+        // 计算以 i 为左端点，能到达的最远右端点
+        for (int i = 0; i <= n; i++) {
+            int start = Math.max(0, i - ranges[i]);
+            int end = Math.min(n, i + ranges[i]);
+
+            rightMost[start] = Math.max(rightMost[start], end);
+        }
+
+        int ans = 0;
+        int curRight = 0;
+        int nextRight = 0;
+
+        for (int i = 0; i < n; i++) {
+            nextRight = Math.max(nextRight, rightMost[i]);
+            if (i == curRight) {
+                if (i == nextRight) {
+                    return -1;
+                }
+
+                curRight = nextRight;
+                ans += 1;
+            }
+        }
+
+        return ans;
+    }
+
+
+    /**
+     * LeeCode 877: 石子游戏
+     * 博弈
+     * @param piles
+     * @return
+     */
+    public boolean stoneGame(int[] piles) {
+        int n = piles.length;
+        int[][] dp = new int[n][n];
+
+
+        for (int i = 0; i < n; i++) {
+            dp[i][i] = piles[i];
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                dp[i][j] = Math.max(piles[i] - dp[i + 1][j], piles[j] - dp[i][j - 1]);
+            }
+        }
+
+        return dp[0][n - 1] > 0;
+    }
+
+    /**
+     * 博弈游戏: 动态规划，后缀和
+     */
+    public int stoneGameII(int[] piles) {
+        int n = piles.length;
+        int suffix = 0;
+        int[][] dp = new int[n][n + 1];
+
+        for (int i = n - 1; i >= 0; i--) {
+            suffix += piles[i];
+            for (int m = 1; m <= i / 2 + 1; m++) {
+                if (i + m * 2 >= n) {
+                    dp[i][m] = suffix;
+                }
+                else {
+                    int val = Integer.MAX_VALUE;
+                    for (int x = 1; x <= 2 * m; x++) {
+                        val = Math.min(val, dp[i + x][Math.max(x, m)]);
+                    }
+                    dp[i][m] = suffix - val;
+                }
+            }
+        }
+
+        return dp[0][1];
+    }
+
+
+    /**
+     * 格雷编码
+     * 
+     * 由 n-1 位格雷码推导 n 位格雷码
+     * 
+     * 将 n-1 位格雷码逆序排列高位补1，两者的并集就是 n 位的格雷码
+     * @param n
+     * @return
+     */
+    public List<Integer> grayCode(int n) {
+        List<Integer> ans = new ArrayList<>();
+        ans.add(0);
+
+        for (int i = 1; i <= n; i++) {
+            int m = ans.size();
+            for (int j = m - 1; j >= 0; j--) {
+                int num = ans.get(j) | (1 << (i - 1));
+                ans.add(num);
+          }
+        }
+
+        return ans;
+    }
+
+
+    public List<Integer> circularPermutation(int n, int start) {
+        List<Integer> ans = new ArrayList<>();
+        ans.add(start);
+
+        for (int i = 1; i <= n; i++) {
+            int m = ans.size();
+            for (int j = m - 1; j >= 0; j--) {
+                int num = ((ans.get(j) ^ start) | (1 << (i - 1))) ^ start;
+                ans.add(num);
+            }
+        }
+
+        return ans;
+    }
+
+
+    public int minimumOperations(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        set.add(0);
+        return set.size() - 1;
+    }
+
+
+    public int minimumSwap(String s1, String s2) {
+        int cnt1 = 0, cnt2 = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            char c = s1.charAt(i);
+            if (c != s2.charAt(i)) {
+                if (c == 'x') {
+                    cnt1 += 1;
+                }
+                else {
+                    cnt2 += 1;
+                }
+            }
+        }
+
+        if ((cnt1 + cnt2) % 2 == 0) {
+            return cnt1 / 2 + cnt2 / 2 + cnt1 % 2 + cnt2 % 2;
+        }
+
+        return -1;
+    }
+
+
+    public int movesToMakeZigzag(int[] nums) {
+        if (nums.length <= 1) {
+            return 0;
+        }
+
+        int cnt1 = 0;
+        int cnt2 = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i % 2 == 1) {
+                if (i == nums.length - 1) {
+                    cnt1 += Math.max(nums[i] - nums[i - 1] + 1, 0);
+                }
+                else {
+                    cnt1 += Math.max(nums[i] - Math.min(nums[i - 1], nums[i + 1]) + 1, 0);
+                }
+            }
+            else {
+                if (i == 0) {
+                    cnt2 += Math.max(nums[i] - nums[i + 1] + 1, 0);
+                }
+                else if (i == nums.length - 1) {
+                    cnt2 += Math.max(nums[i] - nums[i - 1] + 1, 0);
+                }
+                else {
+                    cnt2 += Math.max(nums[i] - Math.min(nums[i - 1], nums[i + 1]) + 1, 0);
+                }
+            }
+        }
+
+        return Math.min(cnt1, cnt2);
+    }
+
+
+    /**
+     * 
+     * @param items1
+     * @param items2
+     * @return
+     */
+    public List<List<Integer>> mergeSimilarItems(int[][] items1, int[][] items2) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < items1.length; i++) {
+           map.put(items1[i][0], map.getOrDefault(items1[i][0], 0) + items1[i][1]);
+        }
+
+        for (int i = 0; i < items2.length; i++) {
+            map.put(items2[i][0], map.getOrDefault(items2[i][0], 0) + items2[i][1]);
+        }
+
+        int i = 0;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            ans.add(new ArrayList<>());
+            ans.get(i).add(entry.getKey());
+            ans.get(i).add(entry.getValue());
+            i += 1;
+        }
+
+        ans.sort((o1, o2) -> {
+            return o1.get(0) - o2.get(0);
+        });
+
+        return ans;
     }
 
 
