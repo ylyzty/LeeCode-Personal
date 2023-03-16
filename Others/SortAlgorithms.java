@@ -47,32 +47,23 @@ public class SortAlgorithms {
             return;
         }
 
-        int temp = nums[left];
-        int L = left;
-        int R = right;
-        while (left < right) {
-            while (left < right && nums[right] > temp) {
-                right -= 1;
+        int i = left;
+        int j = right;
+
+        while (i < j) {
+            while (i < j && nums[j] >= nums[left]) {
+                j--;
+            }
+            while (i < j && nums[i] <= nums[left]) {
+                i++;
             }
 
-            if (left < right) {
-                nums[left] = nums[right];
-                left += 1;
-            }
-
-            while (left < right && nums[left] <= temp) {
-                left += 1;
-            }
-
-            if (left < right) {
-                nums[right] = nums[left];
-                right -= 1;
-            }
+            swap(nums, i, j);
         }
 
-        nums[left] = temp;
-        quickSort(nums, L, left - 1);
-        quickSort(nums, left + 1, R);
+        swap(nums, i, left);
+        quickSort(nums, left, i - 1);
+        quickSort(nums, i + 1, right);
     }
 
 
@@ -119,13 +110,59 @@ public class SortAlgorithms {
     }
 
 
+    public void heapSort(int[] arr) {
+        /**
+         * 建堆
+         * beginIndex: 第一个非叶节点下标
+         */
+        int len = arr.length;
+        int beginIndex = (len - 1) / 2;
+        for (int i = beginIndex; i >= 0; i--) {
+            maxHeapify(arr, i, len);
+        }
+
+        /**
+         * 堆化数据排序
+         * 将堆顶元素与堆尾元素交换, 然后siftDown
+         */
+        for (int i = len - 1; i > 0; i--) {
+            swap(arr, 0, i);
+            maxHeapify(arr, 0, i);
+        }
+    }
+
+    public void maxHeapify(int[] arr, int index, int len) {
+        // 左子节点
+        int left = index * 2 + 1;
+
+        while (left < len) {
+            int right = left + 1;
+            if (right < len && arr[right] > arr[left]) {
+                left = right;
+            }
+
+            if (arr[index] >= arr[left]) {
+                break;
+            }
+
+            swap(arr, index, left);
+            
+            // 继续判断子节点
+            index = left;
+            left = left * 2 + 1;
+        }
+
+    }
+
+
     public static void main(String[] args) {
         int[] nums = new int[]{1, 3, 2, 4, 6, 5, 9, 8, 7};
 
         SortAlgorithms test = new SortAlgorithms();
         // test.bubbleSort(nums);
         // test.quickSort(nums, 0, nums.length - 1);
-        test.mergeSort(nums, 0, nums.length - 1);
+        // test.quickSort(nums, 0, nums.length - 1);
+        test.heapSort(nums);
 
         // print
         for (int num : nums) {
