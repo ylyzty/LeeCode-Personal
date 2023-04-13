@@ -1,4 +1,0 @@
-This is a test file!
-...
-
-读取文字会不会乱码
