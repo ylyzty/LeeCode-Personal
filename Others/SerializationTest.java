@@ -4,13 +4,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
+
 
 public class SerializationTest {
     public static void main(String[] args) {
         // Person person = new Person();
         // write(person);
-        Person.a = 100;
+        
         read("F:\\person.ser");
     }
 
@@ -35,7 +35,7 @@ public class SerializationTest {
 
             // 序列化之后
             System.out.println("========= 序列化后 ========");
-            System.out.println(Person.serialVersionUID + "    " + person.age + "    " + person.a);
+            System.out.println(person.toString());
         } catch (Exception e2) {
             e2.printStackTrace();
             // TODO: handle exception
@@ -49,9 +49,9 @@ public class SerializationTest {
  * 但是 serialVersionUID 除外
  * 
  */
-class Person implements Serializable{
-    public static final long serialVersionUID = 1L;
-    public static final int age = 50;
-    public static int a = 20;
-    public int num = 30;
-}
+// class Person implements Serializable{
+//     public static final long serialVersionUID = 1L;
+//     public static final int age = 100;
+//     public static int a = 20;
+//     public int num = 30;
+// }

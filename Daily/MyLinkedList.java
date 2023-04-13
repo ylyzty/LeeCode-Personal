@@ -2,7 +2,7 @@ package Daily;
 
 public class MyLinkedList {
 
-    private Node head;
+    private MyLinkedListNode head;
     private int size;
 
     public MyLinkedList() {
@@ -15,7 +15,7 @@ public class MyLinkedList {
             return -1;
         }
 
-        Node temp = head;
+        MyLinkedListNode temp = head;
         for (int i = 0; i < index; i++) {
             temp = temp.getNext();
         }
@@ -24,12 +24,12 @@ public class MyLinkedList {
     }
     
     public void addAtHead(int val) {
-        Node node = new Node(val);
+        MyLinkedListNode node = new MyLinkedListNode(val);
         if (size == 0) {
             head = node;
         }
         else {
-            Node temp = head;
+            MyLinkedListNode temp = head;
             head = node;
             head.setNext(temp);
         }
@@ -38,12 +38,12 @@ public class MyLinkedList {
     }
     
     public void addAtTail(int val) {
-        Node node = new Node(val);
+        MyLinkedListNode node = new MyLinkedListNode(val);
         if (size == 0) {
             head = node;
         }
         else {
-            Node temp = head;
+            MyLinkedListNode temp = head;
             for (int i = 0; i < size - 1; i++) {
                 temp = temp.getNext();
             }
@@ -65,8 +65,8 @@ public class MyLinkedList {
             addAtTail(val);
         }
         else {
-            Node node = new Node(val);
-            Node temp = head;
+            MyLinkedListNode node = new MyLinkedListNode(val);
+            MyLinkedListNode temp = head;
             for (int i = 0; i < index - 1; i++) {
                 temp = temp.getNext();
             }
@@ -82,8 +82,8 @@ public class MyLinkedList {
             return;
         }
 
-        Node virtualHead = new Node(0, head);
-        Node node = virtualHead;
+        MyLinkedListNode virtualHead = new MyLinkedListNode(0, head);
+        MyLinkedListNode node = virtualHead;
         for (int i = 0; i < index; i++) {
             node = node.getNext();
         }
@@ -94,15 +94,15 @@ public class MyLinkedList {
     }
 }
 
-class Node {
+class MyLinkedListNode {
     private int val;
-    private Node next;
+    private MyLinkedListNode next;
 
-    public Node(int val) {
+    public MyLinkedListNode(int val) {
         this.val = val;
     }
 
-    public Node(int val, Node next) {
+    public MyLinkedListNode(int val, MyLinkedListNode next) {
         this.val = val;
         this.next = next;
     }
@@ -111,7 +111,7 @@ class Node {
         return val;
     }
 
-    public Node getNext() {
+    public MyLinkedListNode getNext() {
         return next;
     }
 
@@ -119,7 +119,7 @@ class Node {
         this.val = val;
     }
 
-    public void setNext(Node next) {
+    public void setNext(MyLinkedListNode next) {
         this.next = next;
     }
 }

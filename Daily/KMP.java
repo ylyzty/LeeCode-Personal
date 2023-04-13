@@ -2,8 +2,6 @@ package Daily;
 
 public class KMP {
     public int searchSubstringIndex(String s, String pattern) {
-
-        ListNode node;
         int[] next = new int[pattern.length()];
         next[0] = 0;
 

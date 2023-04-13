@@ -8,5 +8,12 @@ public class SmsServiceImpl implements SmsService{
         System.out.println("send message:" + message);
         return message;
     }
+
+    @Override
+    public void print() {
+        // TODO Auto-generated method stub
+        System.out.println("execute print method!");
+    }
+    
     
 }
